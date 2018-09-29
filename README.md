@@ -3,8 +3,12 @@
 模块说明：
 - bounter-app-simon（微服务调用方）
 - bounter-app-susan（微服务被调用方）
+- bounter-common（公共工具）
+- bounter-config（配置中心）
+- bounter-gateway（微服务网关）
+- bounter-oauth2（OAuth2认证中心）
 
-   已实现的功能：
+已实现的功能：
    - 配置中心（Spring Cloud Config）
    - 微服务网关（Zuul）
    - OAuth2认证中心（Spring Security OAuth2）
