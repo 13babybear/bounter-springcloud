@@ -1,2 +1,2 @@
 # bounter-common
-Personal common utils 
+一些常用工具类 
