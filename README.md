@@ -5,6 +5,7 @@
 - bounter-app-susan（微服务被调用方）
 - bounter-common（公共工具）
 - bounter-config（配置中心）
+- bounter-discovery（服务注册与发现）
 - bounter-gateway（微服务网关）
 - bounter-oauth2（OAuth2认证中心）
 
