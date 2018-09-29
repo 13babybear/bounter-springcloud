@@ -5,6 +5,7 @@
 - bounter-app-simon（微服务调用方）
 - bounter-app-susan（微服务被调用方）
 - bounter-common（公共工具）
+- bounter-config（配置中心仓库）
 - bounter-config（配置中心）
 - bounter-discovery（服务注册与发现）
 - bounter-gateway（微服务网关）
