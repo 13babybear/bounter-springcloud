@@ -1,5 +1,8 @@
 # bounter-springcloud
 基于 Spring Cloud 搭建的开发框架原型
+模块说明：
+- bounter-app-simon（微服务调用方）
+- bounter-app-susan（微服务被调用方）
 
    已实现的功能：
    - 配置中心（Spring Cloud Config）
