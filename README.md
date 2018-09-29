@@ -1,5 +1,5 @@
 # bounter-springcloud
-基于 Spring Cloud 搭建的开发框架模型
+基于 Spring Cloud 搭建的开发框架原型
 
    已实现的功能：
    - 配置中心（Spring Cloud Config）
