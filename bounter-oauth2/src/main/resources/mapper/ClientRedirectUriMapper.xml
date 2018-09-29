@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bounter.oauth2.dao.ClientRedirectUriDao">
+
+	<insert id="batchInsert">
+		insert into client_redirect_uri
+		(id,client_id,redirect_uri)
+		values
+		<foreach collection="list" item="clientRedirectUri" separator=",">
+			(#{clientRedirectUri.id},#{clientRedirectUri.clientId},#{clientRedirectUri.redirectUri})
+		</foreach>
+	</insert>
+
+	<select id="selectAll" resultType="ClientRedirectUri">
+		select * from client_redirect_uri
+		<where>
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+		</where>
+	</select>
+
+</mapper>

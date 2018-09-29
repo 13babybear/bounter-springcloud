@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bounter.oauth2.dao.ClientDao">
+
+	<insert id="insert">
+		insert into client
+		(id,client_name,client_id,client_secret,access_token_validity_seconds,refresh_token_validity_seconds,create_time)
+		values
+		(#{id},#{clientName},#{clientId},#{clientSecret},#{accessTokenValiditySeconds},#{refreshTokenValiditySeconds},#{createTime})
+	</insert>
+
+	<select id="selectOne" resultType="Client">
+		select * from client
+		<where>
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+		</where>
+	</select>
+
+</mapper>
