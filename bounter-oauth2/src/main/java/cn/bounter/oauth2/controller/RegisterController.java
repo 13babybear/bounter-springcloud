@@ -40,7 +40,7 @@ public class RegisterController {
         long id = IdGenerator.getId();
         String seed = UUID.randomUUID().toString();
         String clientId = CipherUtil.md5Hex(String.valueOf(id) + seed);
-        String clientSecret = CipherUtil.md5Base64(String.valueOf(id) + seed);
+        String clientSecret = CipherUtil.sha256Hex(String.valueOf(id) + seed);
 
         //Bcrypt加密client_secret
         clientService.add(client.setId(id).setClientId(clientId).setClientSecret(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(clientSecret)).setCreateTime(new Date()));
