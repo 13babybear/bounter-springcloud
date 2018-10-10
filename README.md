@@ -21,10 +21,10 @@
    - 断路器（Hystrix）
    - 微服务跟踪（Sleuth）
    - 部署到Docker（dockerfile-maven-plugin）
+   - 日志聚合（GrayLog + Logspout）
    
    
 即将实现的功能：
-  - 日志聚合
   - 微服务监控
   - 微服务控制台
   - 分布式事务
