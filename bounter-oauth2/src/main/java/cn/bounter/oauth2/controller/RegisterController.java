@@ -1,5 +1,6 @@
 package cn.bounter.oauth2.controller;
 
+import brave.Tracer;
 import cn.bounter.common.model.ResponseData;
 import cn.bounter.common.util.CipherUtil;
 import cn.bounter.common.util.IdGenerator;
@@ -7,6 +8,8 @@ import cn.bounter.oauth2.model.po.Client;
 import cn.bounter.oauth2.model.po.User;
 import cn.bounter.oauth2.service.ClientService;
 import cn.bounter.oauth2.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +25,12 @@ import java.util.UUID;
 @RequestMapping("/register")
 public class RegisterController {
 
+    private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
+
+    @Autowired
+    private Tracer tracer;
     @Autowired
     private UserService userService;
-
     @Autowired
     private ClientService clientService;
 
@@ -43,7 +49,8 @@ public class RegisterController {
         String clientSecret = CipherUtil.sha256Hex(String.valueOf(id) + seed);
 
         //Bcrypt加密client_secret
-        clientService.add(client.setId(id).setClientId(clientId).setClientSecret(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(clientSecret)).setCreateTime(new Date()));
+        clientService.add(client.setId(id).setClientId(clientId).setClientSecret(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(clientSecret)).setCreateTime(new Date()).setTraceId(tracer.currentSpan().context().traceIdString()));
+        logger.info("新增客户端成功！clientId: [{}], clientSecret: [{}]", clientId, clientSecret);
 
         //返回加密前的client_secret
         return new ResponseData<>().data(client.setClientSecret(clientSecret));
@@ -68,7 +75,8 @@ public class RegisterController {
         }
 
         //密码BCrypt加密
-        userService.add(user.setId(IdGenerator.getId()).setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getPassword())).setCreateTime(new Date()));
+        userService.add(user.setId(IdGenerator.getId()).setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(user.getPassword())).setCreateTime(new Date()).setTraceId(tracer.currentSpan().context().traceIdString()));
+        logger.info("新增用户成功，用户名：[{}]", user.getUsername());
 
         return new ResponseData<>().data(user.setPassword(null));
     }

@@ -5,9 +5,9 @@
 
 	<insert id="insert">
 		insert into client
-		(id,client_name,client_id,client_secret,access_token_validity_seconds,refresh_token_validity_seconds,create_time)
+		(id,client_name,client_id,client_secret,access_token_validity_seconds,refresh_token_validity_seconds,create_time,trace_id)
 		values
-		(#{id},#{clientName},#{clientId},#{clientSecret},#{accessTokenValiditySeconds},#{refreshTokenValiditySeconds},#{createTime})
+		(#{id},#{clientName},#{clientId},#{clientSecret},#{accessTokenValiditySeconds},#{refreshTokenValiditySeconds},#{createTime},#{traceId})
 	</insert>
 
 	<select id="selectOne" resultType="Client">

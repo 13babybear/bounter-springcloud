@@ -13,7 +13,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/simon/api/simon/name").hasRole("ADMIN")        //应用自定义授权
-                .antMatchers("/*/api/**").authenticated();                    //下游服务以api开头的都需要认证
+                .anyRequest().permitAll();
+//                .antMatchers("/simon/api/simon/name").hasRole("ADMIN")        //应用自定义授权
+//                .antMatchers("/*/api/**").authenticated();                    //下游服务以api开头的都需要认证
     }
 }

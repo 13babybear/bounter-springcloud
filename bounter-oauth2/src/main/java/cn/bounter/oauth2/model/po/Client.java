@@ -31,6 +31,9 @@ public class Client implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	private Date updateTime;
 
+    //分布式跟踪id
+    private String traceId;
+
     //客户端回调地址
     private List<String> redirectUris;
 
@@ -112,6 +115,15 @@ public class Client implements Serializable {
 
     public Client setRedirectUris(List<String> redirectUris) {
         this.redirectUris = redirectUris;
+        return this;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public Client setTraceId(String traceId) {
+        this.traceId = traceId;
         return this;
     }
 }

@@ -14,9 +14,9 @@
 
 	<insert id="insert">
 		insert into user
-		(id,username,password,client_id,is_staff,create_time)
+		(id,username,password,client_id,is_staff,create_time,trace_id)
 		values
-		(#{id},#{username},#{password},#{clientId},#{isStaff},#{createTime})
+		(#{id},#{username},#{password},#{clientId},#{isStaff},#{createTime},#{traceId})
 	</insert>
 
 </mapper>
