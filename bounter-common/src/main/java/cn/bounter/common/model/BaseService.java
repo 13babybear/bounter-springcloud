@@ -67,7 +67,7 @@ public interface BaseService<T> {
 	 * @param list
 	 * @return
 	 */
-	PageResp<?> paging(Map<String, Object> reqMap, List<Object> list);
+	PageResp paging(Map<String, Object> reqMap, List<?> list);
 
 
 	/**

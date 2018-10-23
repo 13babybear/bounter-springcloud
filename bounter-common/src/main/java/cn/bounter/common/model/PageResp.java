@@ -6,15 +6,14 @@ import java.util.List;
  * 封装数据库分页查询结果
  * @author simon
  *
- * @param <T>
  */
-public class PageResp<T> {
+public class PageResp {
 	
 	//分页的总记录条数
 	private Integer total;
 
 	//数据记录
-    private List<T> records;
+    private List<?> records;
 
 	public Integer getTotal() {
 		return total;
@@ -24,11 +23,11 @@ public class PageResp<T> {
 		this.total = total;
 	}
 
-	public List<T> getRecords() {
+	public List<?> getRecords() {
 		return records;
 	}
 
-	public void setRecords(List<T> records) {
+	public void setRecords(List<?> records) {
 		this.records = records;
 	}
 
@@ -36,16 +35,16 @@ public class PageResp<T> {
 		return total;
 	}
 
-	public PageResp<T> total(Integer total) {
+	public PageResp total(Integer total) {
 		this.total = total;
 		return this;
 	}
 
-	public List<T> records() {
+	public List<?> records() {
 		return records;
 	}
 
-	public PageResp<T> records(List<T> records) {
+	public PageResp records(List<?> records) {
 		this.records = records;
 		return this;
 	}

@@ -43,12 +43,12 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public PageResp<?> paging(Map<String, Object> reqMap, List<Object> list) {
+	public PageResp paging(Map<String, Object> reqMap, List<?> list) {
 		if(list == null || list.isEmpty()) {
 			return null;
 		}
 
-		return new PageResp<>().records(list).total(count(reqMap));
+		return new PageResp().records(list).total(count(reqMap));
 	}
 
 	@Override
