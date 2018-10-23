@@ -18,8 +18,6 @@ public interface BaseDao<T> {
 	
 	T selectOne(T t);
 	
-	T selectOneByAny(T t);
-	
 	T selectFirst(T t);
 	
 	T selectLast(T t);
@@ -28,13 +26,7 @@ public interface BaseDao<T> {
 	
 	List<T> selectList(Map<String, Object> reqMap);
 	
-	List<T> selectListByAny(Map<String, Object> reqMap);
-	
-	Integer count(T t);
-	
-	Integer countPage(Map<String, Object> reqMap);
-	
-	Integer countPageByAny(Map<String, Object> reqMap);
+	Integer count(Map<String, Object> reqMap);
 	
 	void insert(T t);
 	

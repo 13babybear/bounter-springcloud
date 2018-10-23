@@ -32,47 +32,38 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public T findOneByAny(T t) {
-		return baseDao.selectOneByAny(t);
-	}
-	
-	@Override
 	public List<T> findAll(T t) {
 		return baseDao.selectAll(t);
 	}
 
 	@Override
-	public PageResp<T> findList(Map<String, Object> reqMap) {
-		reqMap = setPaging(reqMap);
-
-		List<T> list =  baseDao.selectList(reqMap);
-
-		if(list == null || list.isEmpty()) {
-			return null;
-		}
-
-		return new PageResp<T>().records(list).total(baseDao.countPage(reqMap));
+	public List<T> findList(Map<String, Object> reqMap) {
+		reqMap = setParam(reqMap);
+		return baseDao.selectList(reqMap);
 	}
 
 	@Override
-	public PageResp<T> findListByAny(Map<String, Object> reqMap) {
-		reqMap = setPaging(reqMap);
-
-		List<T> list =  baseDao.selectListByAny(reqMap);
-
+	public PageResp<?> paging(Map<String, Object> reqMap, List<Object> list) {
 		if(list == null || list.isEmpty()) {
 			return null;
 		}
 
-		return new PageResp<T>().records(list).total(baseDao.countPageByAny(reqMap));
+		return new PageResp<>().records(list).total(count(reqMap));
 	}
 
+	@Override
+	public Integer count(Map<String, Object> reqMap) {
+		reqMap = setParam(reqMap);
+		return baseDao.count(reqMap);
+	}
+
+
 	/**
-	 * 设置分页参数
+	 * 设置分页和搜索参数
 	 * @param reqMap
 	 * @return
 	 */
-	private Map<String, Object> setPaging(Map<String, Object> reqMap) {
+	private Map<String, Object> setParam(Map<String, Object> reqMap) {
 		if(reqMap == null) {
 			return null;
 		}
@@ -107,11 +98,6 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		}
 
 		return reqMap;
-	}
-	
-	@Override
-	public Integer count(T t) {
-		return baseDao.count(t);
 	}
 	
 	@Override

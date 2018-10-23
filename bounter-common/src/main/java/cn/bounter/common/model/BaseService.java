@@ -27,19 +27,12 @@ public interface BaseService<T> {
 	String findName(long id);
 	
 	/**
-	 * 查询匹配所有属性的记录
+	 * 查询单个
 	 * @param t
 	 * @return
 	 */
 	T findOne(T t);
-	
-	/**
-	 * 查询匹配任意属性的记录
-	 * @param t
-	 * @return
-	 */
-	T findOneByAny(T t);
-	
+
 	/**
 	 * 查询第一个
 	 * @param t
@@ -66,21 +59,23 @@ public interface BaseService<T> {
 	 * @param reqMap
 	 * @return
 	 */
-	PageResp<T> findList(Map<String, Object> reqMap);
+	List<T> findList(Map<String, Object> reqMap);
 
 	/**
-	 * 查询匹配任意属性的列表,分页
+	 * 获取分页结果
+	 * @param reqMap
+	 * @param list
+	 * @return
+	 */
+	PageResp<?> paging(Map<String, Object> reqMap, List<Object> list);
+
+
+	/**
+	 * 统计总记录数
 	 * @param reqMap
 	 * @return
 	 */
-	PageResp<T> findListByAny(Map<String, Object> reqMap);
-	
-	/**
-	 * 统计总记录数
-	 * @param t
-	 * @return
-	 */
-	Integer count(T t);
+	Integer count(Map<String, Object> reqMap);
 
 
 	/**
