@@ -73,19 +73,21 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 			Integer pageNum = null;
 			Integer pageSize = null;
 			try {
-				pageNum = Integer.parseInt((String)reqMap.get("pageNum"));
+				pageNum = Integer.parseInt(String.valueOf(reqMap.get("pageNum")));
 				if(pageNum < 1) {
 					pageNum = DEFAULT_PAGE_NUM;
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				pageNum = DEFAULT_PAGE_NUM;
 			}
 			try {
-				pageSize = Integer.parseInt((String)reqMap.get("pageSize"));
+				pageSize = Integer.parseInt(String.valueOf(reqMap.get("pageSize")));
 				if(pageSize < 1) {
 					pageSize = DEFAULT_PAGE_SIZE;
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				pageSize = DEFAULT_PAGE_SIZE;
 			}
 			reqMap.put("pageSize", pageSize);

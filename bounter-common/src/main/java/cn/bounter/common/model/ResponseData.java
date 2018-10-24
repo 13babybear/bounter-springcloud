@@ -35,28 +35,39 @@ public class ResponseData<T> {
 		return errorMsg;
 	}
 
+	/**
+	 * 简单标记为成功
+	 * @return
+	 */
 	public ResponseData<T> success() {
 		this.success = true;
 		return this;
 	}
-	
+
+	/**
+	 * 标记为成功，并返回数据
+	 * @param data
+	 * @return
+	 */
+	public ResponseData<T> success(T data) {
+		this.success = true;
+		this.data = data;
+		return this;
+	}
+
+	//简单标记为失败
 	public ResponseData<T> fail() {
 		this.success = false;
 		return this;
 	}
-	
+
+	//标记为失败，并返回失败信息
 	public ResponseData<T> fail(String errorMsg) {
 		this.success = false;
 		this.errorMsg = errorMsg;
 		return this;
 	}
 
-	public ResponseData<T> data(T data) {
-		this.success = true;
-		this.data = data;
-		return this;
-	}
-	
 	public ResponseData<T> errorMsg(String errorMsg) {
 		this.errorMsg = errorMsg;
 		return this;
