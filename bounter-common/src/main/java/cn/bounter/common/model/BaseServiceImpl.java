@@ -1,10 +1,13 @@
 package cn.bounter.common.model;
 
+import cn.bounter.common.util.BeanUtil;
+import com.google.common.base.CaseFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BaseServiceImpl<T> implements BaseService<T> {
 
@@ -15,6 +18,9 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	
 	@Autowired
 	private BaseDao<T> baseDao;
+
+	private ThreadLocal<List<?>> listThreadLocal = new ThreadLocal<>();
+	private ThreadLocal<Map<String, Object>> reqMapThreadLocal = new ThreadLocal<>();
 
 	@Override
 	public T findById(long id) {
@@ -36,10 +42,54 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		return baseDao.selectAll(t);
 	}
 
+
 	@Override
 	public List<T> findList(Map<String, Object> reqMap) {
 		reqMap = setParam(reqMap);
 		return baseDao.selectList(reqMap);
+	}
+
+	@Override
+	public BaseServiceImpl<T> select(Map<String, Object> reqMap) {
+		reqMap = setParam(reqMap);
+		this.reqMapThreadLocal.set(reqMap);
+
+		List<T> list =  baseDao.selectList(reqMap);
+		this.listThreadLocal.set(list);
+		return this;
+	}
+
+	@Override
+	public BaseService<T> slice() {
+		List<?> list = list();
+		Map<String, Object> reqMap = reqMap();
+		//包含属性
+		String[] includeFields = reqMap.get("includeFields") == null ? null : String.valueOf(reqMap.get("includeFields")).split(",");
+		//排除属性
+		String[] excludeFields = reqMap.get("excludeFields") == null ? null : String.valueOf(reqMap.get("excludeFields")).split(",");
+		this.listThreadLocal.set(list.stream().map(t -> BeanUtil.toMap(t, includeFields, excludeFields)).collect(Collectors.toList()));
+		return this;
+	}
+
+	@Override
+	public List<?> list() {
+		return this.listThreadLocal.get();
+	}
+
+	@Override
+	public Map<String, Object> reqMap() {
+		return this.reqMapThreadLocal.get();
+	}
+
+	@Override
+	public PageResp page() {
+		List<?> list = list();
+		if(list == null || list.isEmpty()) {
+			return null;
+		}
+
+		Map<String, Object> reqMap = reqMap();
+		return new PageResp().records(list).total(count(reqMap));
 	}
 
 	@Override
@@ -93,6 +143,11 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 			reqMap.put("pageSize", pageSize);
 			reqMap.put("offset", (pageNum -1) * pageSize);
 		}
+
+		//设置orderBy，将驼峰命名法转换成下划线
+        if (reqMap.get("orderBy") != null) {
+            reqMap.put("orderBy", CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE,String.valueOf(reqMap.get("orderBy"))));
+        }
 
 		//设置搜索关键字
 		if(reqMap.get("keyword") != null) {

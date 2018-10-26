@@ -3,6 +3,7 @@ package cn.bounter.common.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 分页请求
@@ -28,7 +29,7 @@ public class PageReq<T> implements Serializable{
 	
 	//过滤器
 	private T filter;
-		
+
 	//偏移量（非请求参数）
 	private Integer offset;
 

@@ -55,11 +55,44 @@ public interface BaseService<T> {
 	List<T> findAll(T t);
 
 	/**
-	 * 查询列表，分页
+	 * 查询列表
 	 * @param reqMap
 	 * @return
 	 */
 	List<T> findList(Map<String, Object> reqMap);
+
+	/**
+	 * 查询
+	 * @param reqMap
+	 * @return
+	 */
+	BaseService<T> select(Map<String, Object> reqMap);
+
+	/**
+	 * 选择字段
+	 * @return
+	 */
+	BaseService<T> slice();
+
+	/**
+	 * 获取列表
+	 * @return
+	 */
+	List<?> list();
+
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	Map<String, Object> reqMap();
+
+//	PageResp paging(Map<String, Object> reqMap, List<?> list);
+
+	/**
+	 * 获取分页结果
+	 * @return
+	 */
+	PageResp page();
 
 	/**
 	 * 获取分页结果
@@ -67,8 +100,8 @@ public interface BaseService<T> {
 	 * @param list
 	 * @return
 	 */
+	@Deprecated
 	PageResp paging(Map<String, Object> reqMap, List<?> list);
-
 
 	/**
 	 * 统计总记录数

@@ -1,5 +1,7 @@
 package cn.bounter.common.model;
 
+import java.util.Map;
+
 /**
  * 封装请求返回的json数据
  * @author simon
@@ -14,7 +16,7 @@ public class ResponseData<T> {
 	//成功时返回的数据，可以不传
     private T data;
 
-    //请求出错时的错误信息
+  	//请求出错时的错误信息
     private String errorMsg;
     
     //10位的时间戳
@@ -54,6 +56,7 @@ public class ResponseData<T> {
 		this.data = data;
 		return this;
 	}
+
 
 	//简单标记为失败
 	public ResponseData<T> fail() {
