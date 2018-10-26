@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BaseServiceImpl<T> implements BaseService<T> {
@@ -44,12 +45,6 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 
 
 	@Override
-	public List<T> findList(Map<String, Object> reqMap) {
-		reqMap = setParam(reqMap);
-		return baseDao.selectList(reqMap);
-	}
-
-	@Override
 	public BaseServiceImpl<T> select(Map<String, Object> reqMap) {
 		reqMap = setParam(reqMap);
 		this.reqMapThreadLocal.set(reqMap);
@@ -60,20 +55,29 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public BaseService<T> slice() {
+	public BaseService<?> map(Function<Map<String, Object>, Map<String, Object>> mapper) {
 		List<?> list = list();
 		Map<String, Object> reqMap = reqMap();
 		//包含属性
 		String[] includeFields = reqMap.get("includeFields") == null ? null : String.valueOf(reqMap.get("includeFields")).split(",");
 		//排除属性
 		String[] excludeFields = reqMap.get("excludeFields") == null ? null : String.valueOf(reqMap.get("excludeFields")).split(",");
-		this.listThreadLocal.set(list.stream().map(t -> BeanUtil.toMap(t, includeFields, excludeFields)).collect(Collectors.toList()));
+		if (mapper == null) {
+			this.listThreadLocal.set(list.stream().map(t -> BeanUtil.toMap(t, includeFields, excludeFields)).collect(Collectors.toList()));
+		} else {
+			this.listThreadLocal.set(list.stream().map(t -> BeanUtil.toMap(t, includeFields, excludeFields)).map(mapper).collect(Collectors.toList()));
+		}
 		return this;
 	}
 
 	@Override
-	public List<?> list() {
-		return this.listThreadLocal.get();
+	public BaseService<?> map() {
+		return map(null);
+	}
+
+	@Override
+	public List<T> list() {
+		return (List<T>) this.listThreadLocal.get();
 	}
 
 	@Override
@@ -89,15 +93,6 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		}
 
 		Map<String, Object> reqMap = reqMap();
-		return new PageResp().records(list).total(count(reqMap));
-	}
-
-	@Override
-	public PageResp paging(Map<String, Object> reqMap, List<?> list) {
-		if(list == null || list.isEmpty()) {
-			return null;
-		}
-
 		return new PageResp().records(list).total(count(reqMap));
 	}
 

@@ -3,6 +3,7 @@ package cn.bounter.common.model;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 
 /**
@@ -48,37 +49,38 @@ public interface BaseService<T> {
 	T findLast(T t);
 
 	/**t
-	 * 查询所有
+	 * 全量查询
 	 * @param t
 	 * @return
 	 */
 	List<T> findAll(T t);
 
-	/**
-	 * 查询列表
-	 * @param reqMap
-	 * @return
-	 */
-	List<T> findList(Map<String, Object> reqMap);
 
 	/**
-	 * 查询
+	 * 条件查询
 	 * @param reqMap
 	 * @return
 	 */
 	BaseService<T> select(Map<String, Object> reqMap);
 
 	/**
-	 * 选择字段
+	 * 查询结果转map
+	 * @param mapper		自定义映射器
 	 * @return
 	 */
-	BaseService<T> slice();
+	BaseService<?> map(Function<Map<String, Object>, Map<String, Object>> mapper);
 
 	/**
-	 * 获取列表
+	 * 查询结果转map
 	 * @return
 	 */
-	List<?> list();
+	BaseService<?> map();
+
+	/**
+	 * 获取列表形式查询结果
+	 * @return
+	 */
+	List<T> list();
 
 	/**
 	 * 获取请求参数
@@ -86,22 +88,13 @@ public interface BaseService<T> {
 	 */
 	Map<String, Object> reqMap();
 
-//	PageResp paging(Map<String, Object> reqMap, List<?> list);
 
 	/**
-	 * 获取分页结果
+	 * 获取分页形式的查询结果
 	 * @return
 	 */
 	PageResp page();
 
-	/**
-	 * 获取分页结果
-	 * @param reqMap
-	 * @param list
-	 * @return
-	 */
-	@Deprecated
-	PageResp paging(Map<String, Object> reqMap, List<?> list);
 
 	/**
 	 * 统计总记录数
