@@ -3,7 +3,6 @@ package cn.bounter.common.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * 分页请求

@@ -1,7 +1,5 @@
 package cn.bounter.common.model;
 
-import java.util.Map;
-
 /**
  * 封装请求返回的json数据
  * @author simon

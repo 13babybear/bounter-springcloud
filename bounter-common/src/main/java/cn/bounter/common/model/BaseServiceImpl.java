@@ -54,13 +54,13 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public BaseService<?> map(Function<Map<String, Object>, Map<String, Object>> mapper) {
+	public BaseService<T> map(Function<Map<String, Object>, Map<String, Object>> mapper) {
 		List<?> list = list();
 		Map<String, Object> reqMap = reqMap();
 		//包含属性
-		String[] includeFields = reqMap.get("includeFields") == null ? null : String.valueOf(reqMap.get("includeFields")).split(",");
+		String[] includeFields = reqMap.get("columns") == null ? null : String.valueOf(reqMap.get("columns")).split(",");
 		//排除属性
-		String[] excludeFields = reqMap.get("excludeFields") == null ? null : String.valueOf(reqMap.get("excludeFields")).split(",");
+		String[] excludeFields = reqMap.get("ignoreColumns") == null ? null : String.valueOf(reqMap.get("ignoreColumns")).split(",");
 		if (mapper == null) {
 			this.listThreadLocal.set(list.stream().map(t -> BeanUtil.toMap(t, includeFields, excludeFields)).collect(Collectors.toList()));
 		} else {
@@ -83,13 +83,17 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	public PageResp page() {
 		List<?> list = list();
-		if(list == null || list.isEmpty()) {
-			return null;
-		}
 
 		//如果实体类没转成Map，则把实体类转成Map
 		if(!(list.get(0) instanceof Map)) {
+			//转成map，并放入list中
 			map(null);
+			//获取最新的list
+			list = list();
+		}
+
+		if(list == null || list.isEmpty()) {
+			return null;
 		}
 
 		Map<String, Object> reqMap = reqMap();

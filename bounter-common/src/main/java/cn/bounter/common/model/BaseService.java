@@ -2,7 +2,6 @@ package cn.bounter.common.model;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 
 
@@ -68,7 +67,7 @@ public interface BaseService<T> {
 	 * @param mapper		自定义映射器
 	 * @return
 	 */
-	BaseService<?> map(Function<Map<String, Object>, Map<String, Object>> mapper);
+	BaseService<T> map(Function<Map<String, Object>, Map<String, Object>> mapper);
 
 
 	/**
