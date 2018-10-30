@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -70,10 +69,6 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		return this;
 	}
 
-	@Override
-	public BaseService<?> map() {
-		return map(null);
-	}
 
 	@Override
 	public List<T> list() {
@@ -90,6 +85,11 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		List<?> list = list();
 		if(list == null || list.isEmpty()) {
 			return null;
+		}
+
+		//如果实体类没转成Map，则把实体类转成Map
+		if(!(list.get(0) instanceof Map)) {
+			map(null);
 		}
 
 		Map<String, Object> reqMap = reqMap();

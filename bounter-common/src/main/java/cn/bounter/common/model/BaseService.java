@@ -70,11 +70,12 @@ public interface BaseService<T> {
 	 */
 	BaseService<?> map(Function<Map<String, Object>, Map<String, Object>> mapper);
 
+
 	/**
-	 * 查询结果转map
+	 * 获取分页形式的查询结果
 	 * @return
 	 */
-	BaseService<?> map();
+	PageResp page();
 
 	/**
 	 * 获取列表形式查询结果
@@ -87,13 +88,6 @@ public interface BaseService<T> {
 	 * @return
 	 */
 	Map<String, Object> reqMap();
-
-
-	/**
-	 * 获取分页形式的查询结果
-	 * @return
-	 */
-	PageResp page();
 
 
 	/**

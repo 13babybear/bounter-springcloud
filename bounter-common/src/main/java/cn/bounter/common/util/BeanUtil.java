@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Bean 工具类
+ * 实体工具类
  */
 public class BeanUtil {
 
     /**
-     * 对象转Map
+     * 对象转Map,所有的Long类型会被转成String
      * @param obj
      * @param includeFields         包含的属性
      * @param excludeFields         排除的属性
