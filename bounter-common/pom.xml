@@ -5,7 +5,7 @@
 
     <groupId>cn.bounter</groupId>
     <artifactId>bounter-common</artifactId>
-    <version>3.4</version>
+    <version>3.5</version>
     <packaging>jar</packaging>
 
     <name>bounter-common</name>
@@ -36,6 +36,13 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
         </dependency>
 
         <!-- ant压缩和解压工具 -->
