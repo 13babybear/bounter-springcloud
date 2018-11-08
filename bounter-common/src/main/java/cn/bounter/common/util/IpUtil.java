@@ -106,6 +106,15 @@ public class IpUtil {
 		
 		return null;
 	}
+
+
+	public static String getLocationStr(HttpServletRequest request) {
+		Location location = getLocation(request);
+		if (location == null) {
+			return null;
+		}
+		return new StringBuilder().append(location.getProvince()).append(location.getCity()).toString();
+	}
 	
 	public static Location getLocation(String ip) {
 		//发送请求，获取地址信息

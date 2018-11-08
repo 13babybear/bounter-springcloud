@@ -37,5 +37,9 @@ public class Location implements Serializable {
 		this.city = city;
 		return this;
 	}
-	
+
+	@Override
+	public String toString() {
+		return province + city;
+	}
 }
