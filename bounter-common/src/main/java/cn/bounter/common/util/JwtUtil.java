@@ -14,7 +14,7 @@ public class JwtUtil {
 	/** JWT签名密钥 */
     private static final String JWT_SECRET_KEY = "U2ltb25Mb3ZlU3VzYW4=";
     /** accessToken失效时间，单位'秒' */
-    private static final int EXPIRES_IN = 1800;
+    public static final int EXPIRES_IN = 1800;
 
     /**
      * 生成accessToken
