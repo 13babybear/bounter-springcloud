@@ -1,4 +1,4 @@
-package cn.bounter.common.util;
+package cn.bounter.common.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +10,14 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import javax.mail.internet.MimeMessage;
 
 /**
- * 邮件发送工具,需要子类继承使用
+ * 邮件发送工具
+ * 子类只需要继承该类并配置发送邮件账号就可以发送各种邮件
  * @author simon
  *
  */
-public class MailSender {
+public class BaseEmailSender {
 
-	private static final Logger logger = LoggerFactory.getLogger(MailSender.class);
+	private static final Logger logger = LoggerFactory.getLogger(BaseEmailSender.class);
 
 	@Autowired
     private JavaMailSender javaMailSender;
