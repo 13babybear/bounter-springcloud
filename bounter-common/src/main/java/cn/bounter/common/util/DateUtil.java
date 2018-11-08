@@ -99,7 +99,7 @@ public class DateUtil {
 		now.add(Calendar.MINUTE,minutes);
 		return now.getTime();
 	}
-	
+
 	/**
 	 * 获取n天后的日期
 	 * @param days
@@ -121,7 +121,20 @@ public class DateUtil {
 		now.add(Calendar.DAY_OF_YEAR,days);
 		return now.getTime();
 	}
+
+
+	/**
+	 * 获取n秒后的过期时间
+	 * @param seconds
+	 * @return
+	 */
+	public static Date getExpiresIn(int seconds) {
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.SECOND,seconds);
+		return now.getTime();
+	}
 	
 	public static void main(String[] args) {
+		System.out.println(getExpiresIn(120));
 	}
 }

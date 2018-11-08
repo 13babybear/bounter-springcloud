@@ -13,8 +13,8 @@ public class JwtUtil {
 
 	/** JWT签名密钥 */
     private static final String JWT_SECRET_KEY = "U2ltb25Mb3ZlU3VzYW4=";
-    /** accessToken失效时间，单位'分钟' */
-    private static final Integer ACCESS_TOKEN_EXPIRE_TIME = 30;
+    /** accessToken失效时间，单位'秒' */
+    private static final int EXPIRES_IN = 1800;
 
     /**
      * 生成accessToken
@@ -24,7 +24,7 @@ public class JwtUtil {
     public static String generateAccessToken(String userId) {
         JwtBuilder builder = Jwts.builder()
                 .setSubject(userId)
-                .setExpiration(DateUtil.getDateMinutesLater(ACCESS_TOKEN_EXPIRE_TIME))		//30分钟后过期
+                .setExpiration(DateUtil.getExpiresIn(EXPIRES_IN))		//30分钟后过期
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET_KEY);
         return builder.compact();
     }
