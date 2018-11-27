@@ -1,6 +1,8 @@
 package cn.bounter.common.util;
 
 import cn.bounter.common.model.JacksonFactory;
+import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
@@ -11,7 +13,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -20,6 +27,7 @@ import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -227,6 +235,56 @@ public class HttpClient {
 		new Thread(task).start();
 		return task.get();
 	}
+
+
+	/**
+	 * 上传文件
+	 * @param url			请求地址
+	 * @param querys		请求参数(文件为File类型,普通参数为String类型)
+	 * @return
+	 * @throws Exception
+	 */
+	public static String doUpload (String url, Map<String, Object> querys) throws Exception {
+		FutureTask<String> task = new FutureTask<String>(
+				new Callable<String>() {
+
+					@Override
+					public String call () throws Exception {
+						String result = "";
+						// 创建HttpPost对象
+						HttpPost httpPost = new HttpPost(url);
+						// 对传递的请求参数进行封装
+						MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create().setMode(HttpMultipartMode.RFC6532);		//解决中文文件名乱码
+						querys.forEach((k,v) -> {
+							if (v instanceof File) {
+								multipartEntityBuilder.addPart(k, new FileBody((File)v));
+							} else {
+								multipartEntityBuilder.addPart(k, new StringBody((String)v, ContentType.create("text/plain", Consts.UTF_8)));	//解决中文参数乱码
+							}
+						});
+						// 设置请求参数
+						httpPost.setEntity(multipartEntityBuilder.build());
+						// 发送post请求获取HttpResponse
+						CloseableHttpResponse response = httpClient
+								.execute(httpPost);
+						try {
+							// 如果服务器成功地返回响应
+							if (response.getStatusLine()
+									.getStatusCode() == 200) {
+								// 获取服务器响应内容
+								result = EntityUtils.toString(
+										response.getEntity(),
+										StandardCharsets.UTF_8);
+							}
+						} finally {
+							response.close();
+						}
+						return result;
+					}
+				});
+		new Thread(task).start();
+		return task.get();
+	}
 	
 	
 	/**
@@ -361,10 +419,13 @@ public class HttpClient {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String url = "https://xpaper.com/admin/x/plan/sync";
-		String jsonBody = "{\n\t\"id\":\"4078246\"\n}";
-		Map<String, String> headers = new HashMap<>();
-		headers.put("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ4cGFwZXIiLCJzdWIiOiJhdXRoIiwiaWF0IjoxNTI5NDg4Nzk5LCJleHAiOjE1Mjk0OTIzOTl9.bOF007web254U-5hR1irdjevFeOLtM05k0xUxbj350aOJvWLis8dUg8atSzgzM5KwuUcnsG2WC5kVMe4JI6ZP47i2RUDaFN9xISQn1JrvQiM8iQuG1OlnKMgUNPy3Ak2VU24MDh1P0BiOjneWjfuZK8loIeceeO2ytO9pX4k-fE1Rq0lOuGvWS23nQTYeEx5IO4HxsmdJHh5mD_rHUjgKdjjRndHPCPsR8vSlRk5RRZyzZWHU_d0FnvgWEfS_a-IfGpWZ5yNGe36SX9ukoftOLg4WR02fUtYVs5liUUVLCF73x3Mj6tq_OLzzglilS-w9u7U0r9YUBzflIRw9F8gGw");
-		System.out.println(doPost(url, jsonBody, headers));
+		String url = "http://localhost:8080/api/convert";
+		Map<String, Object> querys = new HashMap<>();
+		querys.put("file",new File("D:/你好.pdf"));
+		querys.put("userId","1");
+		querys.put("userName","哈哈");
+		querys.put("clientId","1");
+		querys.put("convertType","1");
+		System.out.println(doUpload(url, querys));
 	}
 }

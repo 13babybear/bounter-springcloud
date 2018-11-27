@@ -84,16 +84,16 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	public PageResp page() {
 		List<?> list = list();
 
+		if(list == null || list.isEmpty()) {
+			return null;
+		}
+
 		//如果实体类没转成Map，则把实体类转成Map
 		if(!(list.get(0) instanceof Map)) {
 			//转成map，并放入list中
 			map(null);
 			//获取最新的list
 			list = list();
-		}
-
-		if(list == null || list.isEmpty()) {
-			return null;
 		}
 
 		Map<String, Object> reqMap = reqMap();

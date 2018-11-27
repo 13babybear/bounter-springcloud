@@ -14,6 +14,7 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(Exception.class)
     public ResponseData<?> handleException(Exception e) {
 		logger.error(e.getMessage(),e);
+
 		return new ResponseData<>().fail("系统异常，请稍后再试！");
     }
 
