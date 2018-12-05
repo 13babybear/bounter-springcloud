@@ -1,5 +1,6 @@
 package cn.bounter.common.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +37,19 @@ public class DateUtil {
 	public static String formatDate(Date date) {
 		if (date != null) {
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+		}
+		return null;
+	}
+
+
+	/**
+	 * 解析日期字符串
+	 * @param dateStr
+	 * @return
+	 */
+	public static Date parseDate(String dateStr) throws ParseException {
+		if (dateStr != null) {
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr);
 		}
 		return null;
 	}
@@ -158,6 +172,21 @@ public class DateUtil {
 		Calendar now = Calendar.getInstance();
 		now.add(unit,time);
 		return now.getTime();
+	}
+
+
+	/**
+	 * 获取n天后的日期
+	 * @param unit
+	 * @param time
+	 * @param date		指定的日期
+	 * @return
+	 */
+	public static Date getDateIn(int unit, int time, Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(unit,time);
+		return calendar.getTime();
 	}
 	
 	public static void main(String[] args) {
