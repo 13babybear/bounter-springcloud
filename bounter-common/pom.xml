@@ -5,7 +5,7 @@
 
     <groupId>cn.bounter</groupId>
     <artifactId>bounter-common</artifactId>
-    <version>3.8</version>
+    <version>3.9</version>
     <packaging>jar</packaging>
 
     <name>bounter-common</name>
