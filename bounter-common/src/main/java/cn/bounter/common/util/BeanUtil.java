@@ -16,7 +16,7 @@ import java.util.Map;
 public class BeanUtil {
 
     /**
-     * 对象转Map,所有的Long类型会被转成String
+     * 对象转Map,属性过滤
      * @param obj
      * @param includeFields         包含的属性
      * @param excludeFields         排除的属性
@@ -53,10 +53,6 @@ public class BeanUtil {
                     // 得到property对应的getter方法
                     Method getter = propertyDescriptor.getReadMethod();
                     Object value = getter!=null ? getter.invoke(obj) : null;
-                    //自动把long类型转成String,解决js中Long过长丢失精度的问题
-                    if (value instanceof Long) {
-                        value = String.valueOf(value);
-                    }
                     map.put(key, value);
                 }
             }
