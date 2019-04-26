@@ -54,17 +54,17 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public BaseService<T> map(Function<Map<String, Object>, Map<String, Object>> mapper) {
+	public BaseService<T> map(Function<Map<String, Object>, Map<String, Object>> function) {
 		List<?> list = list();
 		Map<String, Object> reqMap = reqMap();
 		//包含属性
 		String[] includeFields = reqMap.get("columns") == null ? null : String.valueOf(reqMap.get("columns")).split(",");
 		//排除属性
 		String[] excludeFields = reqMap.get("ignoreColumns") == null ? null : String.valueOf(reqMap.get("ignoreColumns")).split(",");
-		if (mapper == null) {
+		if (function == null) {
 			this.listThreadLocal.set(list.stream().map(t -> BeanUtil.toMap(t, includeFields, excludeFields)).collect(Collectors.toList()));
 		} else {
-			this.listThreadLocal.set(list.stream().map(t -> BeanUtil.toMap(t, includeFields, excludeFields)).map(mapper).collect(Collectors.toList()));
+			this.listThreadLocal.set(list.stream().map(t -> BeanUtil.toMap(t, includeFields, excludeFields)).map(function).collect(Collectors.toList()));
 		}
 		return this;
 	}
