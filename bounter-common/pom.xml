@@ -27,6 +27,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- AOP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!--邮件发送-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
